@@ -1,6 +1,7 @@
 import lichess.api
 import lichess.pgn
 import lichess.format
+import lichess.openings
 import chess.pgn
 import itertools
 import unittest
@@ -112,6 +113,14 @@ class ApiIntegrationTestCase(unittest.TestCase):
         self.assertEqual(evaluation['fen'], "rnbqkbnr/ppp1pppp/8/3pP3/8/8/PPPP1PPP/RNBQKBNR b KQkq - 0 2")
         self.assertEqual(len(pvs), 5)
 
+    def test_openings_master(self):
+        ops = lichess.openings.openings_master("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", play = "e2e4", since = "2022-01", topGames = 0)
+        self.assertEqual(list(ops.keys()),['white', 'draws', 'black', 'moves', 'recentGames', 'topGames', 'opening'])
+        
+    def test_openings_lichess(self):
+        ops = lichess.openings.openings_lichess("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", play = "e2e4", since = "2022-01", topGames = 0)
+        self.assertEqual(list(ops.keys()),['white', 'draws', 'black', 'moves', 'recentGames', 'topGames', 'opening'])
+        
 class PgnIntegrationTestCase(unittest.TestCase):
 
     def test_pychess(self):
